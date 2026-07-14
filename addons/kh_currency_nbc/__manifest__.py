@@ -7,8 +7,8 @@
     "license": "LGPL-3",
     "depends": ["base", "account"],
     "data": [
-        "data/ir_cron.xml",
+        # "data/ir_cron.xml",
     ],
     "installable": True,
-    "application": False,
+    "application": True,    
 }
