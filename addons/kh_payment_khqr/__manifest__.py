@@ -8,8 +8,12 @@
     "depends": ["account", "kh_currency_nbc"],
     "data": [
         "views/account_move_views.xml",
+        "views/res_company_views.xml",
         "report/invoice_khqr_report.xml",
     ],
+    "external_dependencies": {
+        "python": ["qrcode", "requests"],
+    },
     "installable": True,
     "application": False,
 }

@@ -29,7 +29,7 @@ services:
     command:
       - |
         set -e
-        printf '[options]\nadmin_passwd = %s\n' "$${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}" > /etc/odoo/odoo.conf
+        printf '\nadmin_passwd = %s\n' "$${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}" >> /etc/odoo/odoo.conf
         exec /entrypoint.sh odoo
     volumes:
       - csb-odoo-data:/var/lib/odoo
