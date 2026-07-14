@@ -7,3 +7,4 @@ __pycache__/
 # never commit secrets
 **/telegram_token*
 **/bakong_credentials*
+.venv
