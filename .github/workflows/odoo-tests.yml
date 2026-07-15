@@ -1,0 +1,43 @@
+name: Odoo Tests
+
+on:
+  push:
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["main", "dev"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: odoo:19
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run addon test suites
+        run: |
+          odoo \
+            -d ci_test \
+            --db_host=postgres --db_port=5432 --db_user=odoo --db_password=odoo \
+            --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/usr/lib/python3/dist-packages/addons,${GITHUB_WORKSPACE}/addons \
+            -i kh_payment_khqr,kh_telegram_notify \
+            --test-enable \
+            --test-tags /kh_payment_khqr,/kh_telegram_notify \
+            --stop-after-init \
+            --without-demo=True \
+            --no-http
