@@ -29,6 +29,8 @@ services:
     command:
       - |
         set -e
+        grep -v -E '^[[:space:]]*admin_passwd[[:space:]]*=' /etc/odoo/odoo.conf > /tmp/odoo.conf.filtered
+        cat /tmp/odoo.conf.filtered > /etc/odoo/odoo.conf
         printf '\nadmin_passwd = %s\n' "$${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}" >> /etc/odoo/odoo.conf
         exec /entrypoint.sh odoo
     volumes:

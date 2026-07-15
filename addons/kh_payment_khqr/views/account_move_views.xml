@@ -5,21 +5,18 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_generate_khqr" type="object" string="Generate KHQR"
-                        class="oe_stat_button" icon="fa-qrcode"
-                        invisible="khqr_status != 'none' or move_type != 'out_invoice' or state != 'posted'"/>
-                <button name="action_check_khqr_payment" type="object" string="Check Payment"
-                        class="oe_stat_button" icon="fa-refresh"
+                <button name="action_confirm_khqr_payment" type="object" string="Mark as Paid"
+                        class="oe_stat_button" icon="fa-check"
                         invisible="khqr_status != 'pending'"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="KHQR Payment" name="khqr_payment" invisible="not khqr_string">
+                <page string="KHQR Payment" name="khqr_payment" invisible="move_type != 'out_invoice'">
                     <group>
                         <field name="khqr_status" widget="badge"
                                decoration-success="khqr_status == 'paid'"
                                decoration-warning="khqr_status == 'pending'"/>
-                        <field name="khqr_qr_image" widget="image" readonly="1" nolabel="1"/>
-                        <field name="khqr_string" readonly="1"/>
+                        <field name="khqr_qr_image" widget="image" nolabel="1"
+                               readonly="state != 'posted'"/>
                     </group>
                 </page>
             </xpath>
