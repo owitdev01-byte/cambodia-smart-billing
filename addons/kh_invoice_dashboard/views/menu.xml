@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem
+        id="menu_kh_invoice_dashboard"
+        name="Invoice Dashboard"
+        parent="account.menu_finance"
+        action="action_kh_invoice_dashboard"
+        sequence="20"/>
+
+</odoo>

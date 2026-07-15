@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="kh_invoice_dashboard_default" model="kh.invoice.dashboard">
+        <field name="name">Invoice Dashboard</field>
+    </record>
+
+</odoo>
