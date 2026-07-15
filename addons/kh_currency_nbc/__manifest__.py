@@ -7,7 +7,9 @@
     "license": "LGPL-3",
     "depends": ["base", "account"],
     "data": [
-        # "data/ir_cron.xml",
+        "data/ir_cron.xml",
+        "security/ir.model.access.csv",
+        "views/nbc_exchange_rate_views.xml",
     ],
     "installable": True,
     "application": True,    
