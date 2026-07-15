@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_kh_currency_nbc_tree" model="ir.ui.view">
+        <field name="name">kh.currency.nbc.tree</field>
+        <field name="model">kh.currency.nbc</field>
+        <field name="arch" type="xml">
+            <list default_order="rate_date desc">
+                <field name="rate_date"/>
+                <field name="currency_id"/>
+                <field name="exchange_rate"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_kh_currency_nbc_form" model="ir.ui.view">
+    <field name="name">kh.currency.nbc.form</field>
+    <field name="model">kh.currency.nbc</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+
+                <group>
+                    <group>
+                        <field name="currency_id"/>
+                        <field name="rate_date"/>
+                        <field name="exchange_rate"/>
+                    </group>
+
+                    <group>
+                        <field name="company_id"/>
+                    </group>
+                </group>
+
+                <notebook>
+                    <page string="Notes">
+                        <field name="note"/>
+                    </page>
+                </notebook>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+    <!-- Action -->
+    <record id="action_kh_currency_nbc" model="ir.actions.act_window">
+        <field name="name">NBC Exchange Rates</field>
+        <field name="res_model">kh.currency.nbc</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu under Accounting -->
+    <menuitem
+        id="menu_kh_currency_nbc"
+        name="NBC Exchange Rates"
+        parent="account.menu_finance"
+        action="action_kh_currency_nbc"
+        sequence="90"/>
+
+</odoo>
