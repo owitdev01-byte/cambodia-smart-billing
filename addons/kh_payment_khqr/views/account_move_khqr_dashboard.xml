@@ -1,0 +1,84 @@
+<odoo>
+    <record id="view_move_khqr_search" model="ir.ui.view">
+        <field name="name">account.move.khqr.search</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <search string="KHQR Payments">
+                <field name="name"/>
+                <field name="invoice_partner_display_name" string="Customer"/>
+                <filter name="khqr_none" string="Not Uploaded" domain="[('khqr_status', '=', 'none')]"/>
+                <filter name="khqr_pending" string="Pending Payment" domain="[('khqr_status', '=', 'pending')]"/>
+                <filter name="khqr_paid" string="Paid" domain="[('khqr_status', '=', 'paid')]"/>
+                <separator/>
+                <filter name="invoice_date" string="Invoice Date" date="invoice_date"/>
+                <group>
+                    <filter name="group_by_khqr_status" string="KHQR Status" context="{'group_by': 'khqr_status'}"/>
+                    <filter name="group_by_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_invoice_date" string="Invoice Date" context="{'group_by': 'invoice_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_move_khqr_list" model="ir.ui.view">
+        <field name="name">account.move.khqr.list</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <list string="KHQR Payments" default_order="invoice_date desc" create="false">
+                <field name="name"/>
+                <field name="invoice_partner_display_name" string="Customer"/>
+                <field name="invoice_date"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="currency_id"/>
+                <field name="khqr_status" widget="badge"
+                       decoration-success="khqr_status == 'paid'"
+                       decoration-warning="khqr_status == 'pending'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_move_khqr_graph" model="ir.ui.view">
+        <field name="name">account.move.khqr.graph</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <graph string="KHQR Payments" type="bar" sample="1">
+                <field name="khqr_status" type="row"/>
+                <field name="amount_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_move_khqr_pivot" model="ir.ui.view">
+        <field name="name">account.move.khqr.pivot</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <pivot string="KHQR Payments" sample="1">
+                <field name="khqr_status" type="row"/>
+                <field name="amount_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_move_khqr_dashboard" model="ir.actions.act_window">
+        <field name="name">KHQR Payments</field>
+        <field name="res_model">account.move</field>
+        <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'search_default_group_by_khqr_status': 1}</field>
+        <field name="view_mode">list,kanban,graph,pivot,form</field>
+        <field name="search_view_id" ref="view_move_khqr_search"/>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_move_khqr_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('account.view_account_move_kanban')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_move_khqr_graph')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_move_khqr_pivot')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('account.view_move_form')}),
+        ]"/>
+    </record>
+
+    <menuitem id="menu_move_khqr_dashboard"
+              name="KHQR Payments"
+              parent="account.menu_finance"
+              action="action_move_khqr_dashboard"
+              sequence="5"/>
+</odoo>

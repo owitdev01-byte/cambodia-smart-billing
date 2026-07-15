@@ -8,6 +8,7 @@
     "depends": ["account", "kh_currency_nbc"],
     "data": [
         "views/account_move_views.xml",
+        "views/account_move_khqr_dashboard.xml",
         "report/invoice_khqr_report.xml",
     ],
     "installable": True,
