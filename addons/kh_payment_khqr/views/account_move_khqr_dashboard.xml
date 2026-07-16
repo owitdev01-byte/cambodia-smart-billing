@@ -3,7 +3,7 @@
         <field name="name">account.move.khqr.search</field>
         <field name="model">account.move</field>
         <field name="arch" type="xml">
-            <search string="KHQR Payments">
+            <search string="QR Payments">
                 <field name="name"/>
                 <field name="invoice_partner_display_name" string="Customer"/>
                 <filter name="khqr_none" string="Not Uploaded" domain="[('khqr_status', '=', 'none')]"/>
@@ -12,7 +12,7 @@
                 <separator/>
                 <filter name="invoice_date" string="Invoice Date" date="invoice_date"/>
                 <group>
-                    <filter name="group_by_khqr_status" string="KHQR Status" context="{'group_by': 'khqr_status'}"/>
+                    <filter name="group_by_khqr_status" string="QR Status" context="{'group_by': 'khqr_status'}"/>
                     <filter name="group_by_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
                     <filter name="group_by_invoice_date" string="Invoice Date" context="{'group_by': 'invoice_date:month'}"/>
                 </group>
@@ -24,7 +24,7 @@
         <field name="name">account.move.khqr.list</field>
         <field name="model">account.move</field>
         <field name="arch" type="xml">
-            <list string="KHQR Payments" default_order="invoice_date desc" create="false">
+            <list string="QR Payments" default_order="invoice_date desc" create="false">
                 <field name="name"/>
                 <field name="invoice_partner_display_name" string="Customer"/>
                 <field name="invoice_date"/>
@@ -41,7 +41,7 @@
         <field name="name">account.move.khqr.graph</field>
         <field name="model">account.move</field>
         <field name="arch" type="xml">
-            <graph string="KHQR Payments" type="bar" sample="1">
+            <graph string="QR Payments" type="bar" sample="1">
                 <field name="khqr_status" type="row"/>
                 <field name="amount_total" type="measure"/>
             </graph>
@@ -52,7 +52,7 @@
         <field name="name">account.move.khqr.pivot</field>
         <field name="model">account.move</field>
         <field name="arch" type="xml">
-            <pivot string="KHQR Payments" sample="1">
+            <pivot string="QR Payments" sample="1">
                 <field name="khqr_status" type="row"/>
                 <field name="amount_total" type="measure"/>
             </pivot>
@@ -60,7 +60,7 @@
     </record>
 
     <record id="action_move_khqr_dashboard" model="ir.actions.act_window">
-        <field name="name">KHQR Payments</field>
+        <field name="name">QR Payments</field>
         <field name="res_model">account.move</field>
         <field name="domain">[('move_type', '=', 'out_invoice')]</field>
         <field name="context">{'default_move_type': 'out_invoice', 'search_default_group_by_khqr_status': 1}</field>
@@ -77,7 +77,7 @@
     </record>
 
     <menuitem id="menu_move_khqr_dashboard"
-              name="KHQR Payments"
+              name="QR Payments"
               parent="account.menu_finance"
               action="action_move_khqr_dashboard"
               sequence="5"/>

@@ -11,6 +11,10 @@
                 <field name="currency_id"/>
                 <field name="exchange_rate"/>
                 <field name="company_id" optional="hide"/>
+                <field name="applied" widget="boolean_toggle" readonly="1"/>
+                <button name="action_apply_to_odoo" type="object" string="Apply to Odoo"
+                        icon="fa-check" invisible="applied"
+                        groups="account.group_account_invoice"/>
             </list>
         </field>
     </record>
@@ -21,6 +25,11 @@
     <field name="model">kh.currency.nbc</field>
     <field name="arch" type="xml">
         <form>
+            <header>
+                <button name="action_apply_to_odoo" type="object" string="Apply to Odoo"
+                        class="btn-primary" invisible="applied"
+                        groups="account.group_account_invoice"/>
+            </header>
             <sheet>
 
                 <group>
@@ -28,6 +37,7 @@
                         <field name="currency_id"/>
                         <field name="rate_date"/>
                         <field name="exchange_rate"/>
+                        <field name="applied" readonly="1"/>
                     </group>
 
                     <group>

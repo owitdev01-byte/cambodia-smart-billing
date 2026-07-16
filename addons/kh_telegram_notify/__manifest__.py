@@ -1,8 +1,8 @@
 {
-    "name": "Cambodia KHQR Telegram Notifications",
+    "name": "Cambodia QR Payment Telegram Notifications",
     "version": "19.0.1.0.0",
     "category": "Accounting/Payment",
-    "summary": "Notify a Telegram chat when a KHQR invoice is uploaded or marked paid",
+    "summary": "Notify a Telegram chat when a QR payment invoice is uploaded or marked paid",
     "author": "Sambath & Kimnam",
     "license": "LGPL-3",
     "depends": ["kh_payment_khqr"],

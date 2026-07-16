@@ -9,8 +9,15 @@
                         class="oe_stat_button" icon="fa-check"
                         invisible="khqr_status != 'pending'"/>
             </xpath>
+            <xpath expr="//field[@name='tax_totals']" position="after">
+                <field name="alt_currency_id" invisible="1"/>
+                <field name="alt_amount_total" widget="monetary"
+                       string="Riel Equivalent"
+                       invisible="not alt_currency_id"
+                       options="{'currency_field': 'alt_currency_id'}"/>
+            </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="KHQR Payment" name="khqr_payment" invisible="move_type != 'out_invoice'">
+                <page string="QR Payment" name="khqr_payment" invisible="move_type != 'out_invoice'">
                     <group>
                         <field name="khqr_status" widget="badge"
                                decoration-success="khqr_status == 'paid'"

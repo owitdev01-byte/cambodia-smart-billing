@@ -3,8 +3,8 @@ from odoo import models
 from .telegram_client import send_telegram_message
 
 STATUS_MESSAGES = {
-    "pending": "\U0001F7E1 KHQR uploaded for invoice {name} ({amount} {currency}). Awaiting payment.",
-    "paid": "\U00002705 Invoice {name} ({amount} {currency}) marked as paid via KHQR.",
+    "pending": "\U0001F7E1 QR code uploaded for invoice {name} ({amount} {currency}). Awaiting payment.",
+    "paid": "\U00002705 Invoice {name} ({amount} {currency}) marked as paid.",
 }
 
 
