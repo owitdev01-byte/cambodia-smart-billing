@@ -1,0 +1,123 @@
+.kh_invoice_dashboard {
+    height: 100%;
+    overflow: auto;
+    background-color: #f8f9fa;
+
+    .kh_dashboard_header {
+        background: #fff;
+        border-bottom: 1px solid #e3e6ef;
+
+        h2 {
+            font-weight: 600;
+        }
+    }
+
+    .kh_kpi_row {
+        gap: 16px;
+    }
+
+    .kh_kpi_card {
+        flex: 1 1 160px;
+        min-width: 160px;
+        padding: 14px 18px;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.15s ease;
+
+        &:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .kh_kpi_label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #6c757d;
+        }
+
+        .kh_kpi_value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c2c2c;
+        }
+
+        &.kh_kpi_warning .kh_kpi_value {
+            color: #d92550;
+        }
+
+        &.kh_kpi_money .kh_kpi_value {
+            color: #3ac47d;
+        }
+    }
+
+    .kh_chart_col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .kh_chart_wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .kh_dashboard_table {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+        thead th {
+            background: #f1f3f8;
+            font-weight: 600;
+            border-bottom: none;
+        }
+    }
+}
+
+// ---------------------------------------------------------
+// Print layout: hide everything except the dashboard content
+// when the user clicks "Print Report" (window.print()).
+// ---------------------------------------------------------
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .kh_invoice_dashboard,
+    .kh_invoice_dashboard * {
+        visibility: visible;
+    }
+
+    .kh_invoice_dashboard {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #fff !important;
+    }
+
+    .kh_dashboard_actions,
+    .o_main_navbar,
+    .o_control_panel,
+    .breadcrumb {
+        display: none !important;
+    }
+
+    .kh_kpi_card,
+    .kh_chart_wrapper,
+    .kh_dashboard_table {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+    }
+}

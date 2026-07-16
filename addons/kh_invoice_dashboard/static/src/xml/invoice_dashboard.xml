@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="kh_invoice_dashboard.Dashboard" owl="1">
+        <div class="kh_invoice_dashboard o_action">
+
+            <div class="kh_dashboard_header d-flex justify-content-between align-items-center p-3">
+                <h2 class="mb-0">Invoice Dashboard</h2>
+                <div class="kh_dashboard_actions">
+                    <button class="btn btn-secondary me-2" t-on-click="onRefresh">
+                        <i class="fa fa-refresh me-1"/> Refresh
+                    </button>
+                    <button class="btn btn-primary kh_print_btn" t-on-click="onPrint">
+                        <i class="fa fa-print me-1"/> Print Report
+                    </button>
+                </div>
+            </div>
+
+            <div t-if="state.loading" class="text-center p-5">
+                <i class="fa fa-spin fa-spinner fa-2x"/>
+            </div>
+
+            <div t-else="" class="kh_dashboard_content p-3">
+
+                <div class="kh_kpi_row d-flex flex-wrap gap-3 mb-4">
+                    <div class="kh_kpi_card">
+                        <span class="kh_kpi_label">Total Invoices</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.total_invoice"/></span>
+                    </div>
+                    <div class="kh_kpi_card">
+                        <span class="kh_kpi_label">Draft</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.draft_invoice"/></span>
+                    </div>
+                    <div class="kh_kpi_card">
+                        <span class="kh_kpi_label">Posted</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.posted_invoice"/></span>
+                    </div>
+                    <div class="kh_kpi_card">
+                        <span class="kh_kpi_label">Paid</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.paid_invoice"/></span>
+                    </div>
+                    <div class="kh_kpi_card kh_kpi_warning">
+                        <span class="kh_kpi_label">Overdue</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.overdue_invoice"/></span>
+                    </div>
+                    <div class="kh_kpi_card kh_kpi_money">
+                        <span class="kh_kpi_label">Total Sales</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.total_sales"/></span>
+                    </div>
+                    <div class="kh_kpi_card kh_kpi_money">
+                        <span class="kh_kpi_label">Outstanding</span>
+                        <span class="kh_kpi_value"><t t-esc="totals.outstanding_amount"/></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 kh_chart_col">
+                        <div class="kh_chart_wrapper">
+                            <canvas t-ref="chartCanvas"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <table class="table table-sm table-striped kh_dashboard_table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th class="text-end">Total</th>
+                                    <th class="text-end">Draft</th>
+                                    <th class="text-end">Posted</th>
+                                    <th class="text-end">Paid</th>
+                                    <th class="text-end">Overdue</th>
+                                    <th class="text-end">Sales</th>
+                                    <th class="text-end">Outstanding</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="state.records" t-as="rec" t-key="rec.id">
+                                    <td><t t-esc="rec.company_id[1]"/></td>
+                                    <td class="text-end"><t t-esc="rec.total_invoice"/></td>
+                                    <td class="text-end"><t t-esc="rec.draft_invoice"/></td>
+                                    <td class="text-end"><t t-esc="rec.posted_invoice"/></td>
+                                    <td class="text-end"><t t-esc="rec.paid_invoice"/></td>
+                                    <td class="text-end"><t t-esc="rec.overdue_invoice"/></td>
+                                    <td class="text-end"><t t-esc="rec.total_sales"/></td>
+                                    <td class="text-end"><t t-esc="rec.outstanding_amount"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+</templates>
