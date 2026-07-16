@@ -44,6 +44,12 @@
             color: #2c2c2c;
         }
 
+        .kh_kpi_sub {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
         &.kh_kpi_warning .kh_kpi_value {
             color: #d92550;
         }
@@ -83,12 +89,28 @@
             border-bottom: none;
         }
     }
+
+    .kh_khr_sub {
+        font-size: 11px;
+        color: #6c757d;
+    }
 }
 
 // ---------------------------------------------------------
 // Print layout: hide everything except the dashboard content
 // when the user clicks "Print Report" (window.print()).
+// Only the record table + a printed header/title should show —
+// the KPI cards and the donut chart are excluded from print.
 // ---------------------------------------------------------
+.kh_print_header {
+    display: none;
+}
+
+@page {
+    size: landscape;
+    margin: 14mm 10mm;
+}
+
 @media print {
     body * {
         visibility: hidden;
@@ -107,6 +129,7 @@
         background: #fff !important;
     }
 
+    .kh_dashboard_header,
     .kh_dashboard_actions,
     .o_main_navbar,
     .o_control_panel,
@@ -114,10 +137,99 @@
         display: none !important;
     }
 
-    .kh_kpi_card,
-    .kh_chart_wrapper,
+    // Anything marked kh_no_print (KPI cards row + donut chart) is dropped from print
+    .kh_no_print {
+        display: none !important;
+    }
+
+    // Printed title block, replacing the on-screen header
+    .kh_print_header {
+        display: block !important;
+        margin-bottom: 14px;
+        border-bottom: 2px solid #2c2c2c;
+        padding-bottom: 8px;
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        p {
+            margin: 2px 0 0;
+            font-size: 11px;
+            color: #444;
+        }
+    }
+
+    .kh_dashboard_content {
+        padding: 0 !important;
+    }
+
+    // Table takes the full page width once the chart column is gone
+    .kh_table_col {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
     .kh_dashboard_table {
+        width: 100% !important;
+        font-size: 11px;
         box-shadow: none !important;
-        border: 1px solid #ddd;
+        border-collapse: collapse;
+        border: 1px solid #333;
+
+        th,
+        td {
+            border: 1px solid #333 !important;
+            padding: 5px 8px !important;
+        }
+
+        thead th {
+            background: #eee !important;
+            font-weight: 700;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        tbody tr {
+            page-break-inside: avoid;
+        }
+    }
+
+    .kh_khr_sub {
+        font-size: 9px;
+        color: #555;
+    }
+}
+
+
+// ---------------------------------------------------------
+// Styling for the plain list view (view_kh_invoice_dashboard_tree)
+// Scoped via class="o_kh_invoice_dashboard_list" on the <list> arch
+// so it doesn't affect other list views in the system.
+// ---------------------------------------------------------
+.o_list_view.o_kh_invoice_dashboard_list,
+.o_kh_invoice_dashboard_list.o_list_table {
+    border-collapse: collapse;
+
+    thead th {
+        white-space: normal !important;
+        word-break: break-word;
+        vertical-align: bottom;
+        background: #f1f3f8;
+        font-weight: 600;
+        border: 1px solid #dde1ea;
+        padding: 8px 10px !important;
+    }
+
+    tbody td {
+        border: 1px solid #ecedf2;
+        padding: 8px 10px !important;
+    }
+
+    tbody tr:hover {
+        background-color: #f8f9fb;
     }
 }

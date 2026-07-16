@@ -8,16 +8,20 @@
         <field name="name">kh.invoice.dashboard.tree</field>
         <field name="model">kh.invoice.dashboard</field>
         <field name="arch" type="xml">
-            <list create="0" delete="0">
-                <field name="company_id"/>
-                <field name="total_invoice"/>
-                <field name="draft_invoice"/>
-                <field name="posted_invoice"/>
-                <field name="paid_invoice"/>
-                <field name="overdue_invoice"/>
-                <field name="total_sales"/>
-                <field name="outstanding_amount"/>
-                <field name="last_updated"/>
+            <list create="0" delete="0" class="o_kh_invoice_dashboard_list">
+                <field name="company_id" string="Company"/>
+                <field name="total_invoice" string="Total"/>
+                <field name="draft_invoice" string="Draft"/>
+                <field name="posted_invoice" string="Posted"/>
+                <field name="paid_invoice" string="Paid"/>
+                <field name="overdue_invoice" string="Overdue"/>
+                <field name="total_sales" string="Total Sales (USD)" sum="Total Sales (USD)" widget="monetary"/>
+                <field name="total_sales_khr" string="Total Sales (KHR)" sum="Total Sales (KHR)" widget="monetary"/>
+                <field name="outstanding_amount" string="Outstanding (USD)" sum="Outstanding (USD)" widget="monetary"/>
+                <field name="outstanding_amount_khr" string="Outstanding (KHR)" sum="Outstanding (KHR)" widget="monetary"/>
+                <field name="last_updated" string="Last Updated"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="currency_id_khr" column_invisible="1"/>
             </list>
         </field>
     </record>
@@ -45,9 +49,13 @@
                         <field name="overdue_invoice" readonly="1"/>
                     </group>
 
-                    <group string="Financial Summary" col="2">
-                        <field name="total_sales" readonly="1"/>
-                        <field name="outstanding_amount" readonly="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="currency_id_khr" invisible="1"/>
+                    <group string="Financial Summary" col="4">
+                        <field name="total_sales" string="Total Sales (USD)" readonly="1" widget="monetary"/>
+                        <field name="total_sales_khr" string="Total Sales (KHR)" readonly="1" widget="monetary"/>
+                        <field name="outstanding_amount" string="Outstanding (USD)" readonly="1" widget="monetary"/>
+                        <field name="outstanding_amount_khr" string="Outstanding (KHR)" readonly="1" widget="monetary"/>
                     </group>
 
                 </sheet>

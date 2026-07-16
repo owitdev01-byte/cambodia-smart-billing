@@ -19,6 +19,15 @@ class KhInvoiceDashboard(models.Model):
         readonly=True,
     )
 
+    # KHR is always the same currency for every row, regardless of the
+    # company's own currency — used purely to display the KHR-equivalent
+    # amounts below with the correct symbol/formatting.
+    currency_id_khr = fields.Many2one(
+        "res.currency",
+        string="Currency (KHR)",
+        compute="_compute_currency_id_khr",
+    )
+
     total_invoice = fields.Integer(compute="_compute_dashboard")
     draft_invoice = fields.Integer(compute="_compute_dashboard")
     posted_invoice = fields.Integer(compute="_compute_dashboard")
@@ -35,11 +44,29 @@ class KhInvoiceDashboard(models.Model):
         compute="_compute_dashboard",
     )
 
+    total_sales_khr = fields.Monetary(
+        string="Total Sales (KHR)",
+        currency_field="currency_id_khr",
+        compute="_compute_dashboard",
+    )
+
+    outstanding_amount_khr = fields.Monetary(
+        string="Outstanding (KHR)",
+        currency_field="currency_id_khr",
+        compute="_compute_dashboard",
+    )
+
     last_updated = fields.Datetime(compute="_compute_dashboard")
+
+    def _compute_currency_id_khr(self):
+        khr = self.env["res.currency"].search([("name", "=", "KHR")], limit=1)
+        for rec in self:
+            rec.currency_id_khr = khr.id if khr else False
 
     def _compute_dashboard(self):
 
         today = fields.Date.today()
+        khr = self.env["res.currency"].search([("name", "=", "KHR")], limit=1)
 
         for rec in self:
 
@@ -83,5 +110,19 @@ class KhInvoiceDashboard(models.Model):
             rec.outstanding_amount = sum(
                 outstanding.mapped("amount_residual")
             )
+
+            # KHR-equivalent amounts, converted via Odoo's own currency
+            # rate table (Settings > Currencies). Falls back to the raw
+            # amount if KHR isn't configured, rather than erroring out.
+            if khr and rec.currency_id:
+                rec.total_sales_khr = rec.currency_id._convert(
+                    rec.total_sales, khr, rec.company_id, today
+                )
+                rec.outstanding_amount_khr = rec.currency_id._convert(
+                    rec.outstanding_amount, khr, rec.company_id, today
+                )
+            else:
+                rec.total_sales_khr = rec.total_sales
+                rec.outstanding_amount_khr = rec.outstanding_amount
 
             rec.last_updated = fields.Datetime.now()

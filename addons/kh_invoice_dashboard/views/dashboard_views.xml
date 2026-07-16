@@ -10,10 +10,11 @@
     </record>
 
     <!-- ========================= -->
-    <!-- Root Menu -->
+    <!-- Root Menu, now nested under Invoicing's top menu -->
     <!-- ========================= -->
     <menuitem id="menu_kh_invoice_dashboard_root"
               name="Invoice Dashboard"
+              parent="account.menu_finance"
               sequence="5"/>
 
     <!-- ========================= -->

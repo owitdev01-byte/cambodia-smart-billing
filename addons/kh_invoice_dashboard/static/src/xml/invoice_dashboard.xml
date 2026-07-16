@@ -22,7 +22,13 @@
 
             <div t-else="" class="kh_dashboard_content p-3">
 
-                <div class="kh_kpi_row d-flex flex-wrap gap-3 mb-4">
+                <!-- Visible only when printing: replaces the on-screen header/actions -->
+                <div class="kh_print_header">
+                    <h2>Invoice Dashboard Report</h2>
+                    <p>Generated: <t t-esc="generatedAt"/></p>
+                </div>
+
+                <div class="kh_kpi_row d-flex flex-wrap gap-3 mb-4 kh_no_print">
                     <div class="kh_kpi_card">
                         <span class="kh_kpi_label">Total Invoices</span>
                         <span class="kh_kpi_value"><t t-esc="totals.total_invoice"/></span>
@@ -45,21 +51,23 @@
                     </div>
                     <div class="kh_kpi_card kh_kpi_money">
                         <span class="kh_kpi_label">Total Sales</span>
-                        <span class="kh_kpi_value"><t t-esc="totals.total_sales"/></span>
+                        <span class="kh_kpi_value"><t t-esc="formatTotal('total_sales')"/></span>
+                        <span class="kh_kpi_sub">≈ <t t-esc="formatKHR(totals.total_sales_khr)"/></span>
                     </div>
                     <div class="kh_kpi_card kh_kpi_money">
                         <span class="kh_kpi_label">Outstanding</span>
-                        <span class="kh_kpi_value"><t t-esc="totals.outstanding_amount"/></span>
+                        <span class="kh_kpi_value"><t t-esc="formatTotal('outstanding_amount')"/></span>
+                        <span class="kh_kpi_sub">≈ <t t-esc="formatKHR(totals.outstanding_amount_khr)"/></span>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-4 kh_chart_col">
+                    <div class="col-lg-4 kh_chart_col kh_no_print">
                         <div class="kh_chart_wrapper">
                             <canvas t-ref="chartCanvas"/>
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 kh_table_col">
                         <table class="table table-sm table-striped kh_dashboard_table">
                             <thead>
                                 <tr>
@@ -81,8 +89,18 @@
                                     <td class="text-end"><t t-esc="rec.posted_invoice"/></td>
                                     <td class="text-end"><t t-esc="rec.paid_invoice"/></td>
                                     <td class="text-end"><t t-esc="rec.overdue_invoice"/></td>
-                                    <td class="text-end"><t t-esc="rec.total_sales"/></td>
-                                    <td class="text-end"><t t-esc="rec.outstanding_amount"/></td>
+                                    <td class="text-end">
+                                        <t t-esc="formatMoney(rec.total_sales, rec)"/>
+                                        <div class="kh_khr_sub" t-if="khrFor(rec, 'total_sales')">
+                                            ≈ <t t-esc="khrFor(rec, 'total_sales')"/>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <t t-esc="formatMoney(rec.outstanding_amount, rec)"/>
+                                        <div class="kh_khr_sub" t-if="khrFor(rec, 'outstanding_amount')">
+                                            ≈ <t t-esc="khrFor(rec, 'outstanding_amount')"/>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
